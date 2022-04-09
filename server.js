@@ -2,36 +2,30 @@ const express = require('express');
 const cors = require('cors');
 const port = process.env.PORT || 3001;
 const app = express();
-const users = require('./data/users');
-const recipes = require('./data/recipes');
-const ingredients = require('./data/ingredients');
+const words = require('./data/words');
+const gamesPlayed = require('./data/gamesPlayed');
 
 app.locals = {
-  title: 'What\'s Cookin API',
-  users,
-  recipes,
-  ingredients
+  title: 'Turdle API',
+  words,
+  gamesPlayed
 }
 
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/v1/users', (req, res) => {
-  res.status(200).json(app.locals.users);
+app.get('/api/v1/words', (req, res) => {
+  res.status(200).json(app.locals.words);
 });
 
-app.get('/api/v1/recipes', (req, res) => {
-  res.status(200).json(app.locals.recipes);
+app.get('/api/v1/games', (req, res) => {
+  res.status(200).json(app.locals.gamesPlayed);
 });
 
-app.get('/api/v1/ingredients', (req, res) => {
-  res.status(200).json(app.locals.ingredients);
-});
+app.post('/api/v1/games', (req, res) => {
+  const { solved, guesses } = req.body;
 
-app.post('/api/v1/users', (req, res) => {
-  const { userID, ingredientID, ingredientModification } = req.body;
-
-  for (let requiredParameter of ['userID', 'ingredientID', 'ingredientModification']) {
+  for (let requiredParameter of ['solved', 'guesses']) {
     if (req.body[requiredParameter] === undefined) {
       return res.status(422).json({
         message: `You are missing a required parameter of ${requiredParameter}`
@@ -39,30 +33,25 @@ app.post('/api/v1/users', (req, res) => {
     }
   }
 
-  const foundUser = users.find(user => user.id === userID);
-
-  if (!foundUser) {
+  if (solved !== true && solved !== false) {
     return res.status(422).json({
-      message: `No user found with ID ${userID}`
-    })
-  }
-
-  let pantryToModify = foundUser.pantry.find(pantryItem => pantryItem.ingredient === ingredientID);
-
-  if (!pantryToModify && ingredientModification > 0) {
-    foundUser.pantry.push({ ingredient: ingredientID, amount: ingredientModification });
-    return res.status(201).json({ 
-      message: `${ingredientModification} units of item # ${ingredientID} were added to user ${userID}'s pantry`
+      message: `The parameter solved must be a boolean.`
     });
-  } 
-
-  if ((pantryToModify && ingredientModification < 0) && (pantryToModify.amount + ingredientModification < 0)) {
-    return res.status(422).json({ message: `The user doesn't have enough of this item.`});
   }
 
-  pantryToModify.amount += ingredientModification;
+  if (!(guesses < 7 && guesses > 0 && guesses % 1 === 0)) {
+    return res.status(422).json({
+      message: `The parameter guesses must be a whole number between 1 and 6.`
+    });
+  }
+
+  gamesPlayed.push({
+    solved: solved,
+    numGuesses: guesses
+  });
+
   return res.status(201).json({
-    message: `User # ${userID} has ${pantryToModify.amount} units of item # ${pantryToModify.ingredient}`
+    message: `Game stats recorded successfully.`
   });
 });
 

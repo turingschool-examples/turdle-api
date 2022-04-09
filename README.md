@@ -1,6 +1,6 @@
-# whats-cookin-api
+# turdle-api
 
-This repo was created to be used with the whats cookin project.
+This repo was created to be used with the Refactor Tractor - Turdle project.
 
 ## Set Up
 
@@ -14,8 +14,6 @@ Clone this down, and `cd` into it.  Then run:
 
 | Description | URL | Method | Required Properties for Request | Sample Successful Response |
 |----------|-----|--------|---------------------|-----------------|
-| Get all users |`http://localhost:3001/api/v1/users`| GET  | none | An array containing all users |
-|Get all ingredients |`http://localhost:3001/api/v1/ingredients` | GET  | none | An array containing all ingredients |
-|Get all recipes | `http://localhost:3001/api/v1/recipes` | GET | none | An array containing all recipes |
-| Add/Remove Ingredients from a pantry |`http://localhost:3001/api/v1/users`| POST | `{ userID: <number>, ingredientID: <number>, ingredientModification: <number> }` | `{message: '"User # <userID> has 7 units of item # <ingredientID>"' }`|
-
+| Get all words |`http://localhost:3001/api/v1/words`| GET  | none | An array containing all words |
+| Get all previous games stats |`http://localhost:3001/api/v1/games` | GET  | none | An array containing game stats for all previous games (will be empty until you POST)|
+| Add a new game stat |`http://localhost:3001/api/v1/games`| POST | `{ solved: <boolean (did they solve the puzzle?)>, guesses: <number (how many guesses did they make?)> }` | `{message: '"Game stats recorded successfully.' }`|
