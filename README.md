@@ -12,7 +12,7 @@ Clone this down, and `cd` into it.  Then run:
 
 ## Endpoints
 
-| Description | URL | Method | Required Properties for Request | Sample Successful Response |
+| Description | URL | Method | Required Properties for Request Body | Sample Successful Response |
 |----------|-----|--------|---------------------|-----------------|
 | Get all words (iteration 2) |`http://localhost:3001/api/v1/words`| GET  | none | An array containing all words |
 | Add a new game stat (iteration 4)|`http://localhost:3001/api/v1/games`| POST | `{ solved: <boolean (did they solve the puzzle?)>, guesses: <number (how many guesses did they make?)> }` | `{message: '"Game stats recorded successfully.' }`|
