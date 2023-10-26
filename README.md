@@ -4,7 +4,7 @@ This repo is associated with the [Refactor Tractor - 1 Day Challenge activity](h
 
 ## Set Up
 
-Clone this down, and `cd` into it.  Then run:
+Clone this down into a separate directory from the front-end repo, and `cd` into it.  Then run:
 
 `npm install`
 
